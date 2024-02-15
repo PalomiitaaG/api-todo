@@ -1,0 +1,502 @@
+
+forEach --> método de arrays/lista-nodos --> ejecutar un callbaks por cada uno de los elementos de la coleccion/array.
+
+LISTA/ARRAY.forEach(callbaks)
+
+callbak --> recibe tres argumentos 1º elementos, 2º índice, 3º toda la colección de elementos.
+
+Ambos retorna un array
+map --> crea un nuevo array apartir de otro, utilizando un callback(lo que retorne el callback es lo que va a mostar en el nuevo array).
+filter--> crea un nuevo array filtrando otro, como filtro utiliza un callback si el callback retorna "true" el elemento se queda en el nuevo array si el callback retorna "false" se va.
+.
+
+PROMESAS
+
+Es una funcion asíncrona (una funcion que no se va a invocar de manera inmediata)
+Para crearla usar una "funcion constructora" 
+Es una funcion que se ejecuta inmediatamente
+
+Se llaman promesas por que tienen la posibilidad que no se cumple, si se cumple se realiza el callback
+
+let nombre = "Irene"; / java sabe inmediatamente que esto es un string
+let nombre = new String("Irene"); //tras camaras
+
+new Promise(funcion asincrona)//puedes pasar cualquier cosa, funcion
+
+.then --> configurar el callback para cuando se cumpla la promesa. Te da la posibilidad de concatenar si se cumplen cosas. Siempre van en orden
+
+PROMESA.then(callback) 
+
+2 callback ---> OK (fullfill) | KO (reject)
+
+PROMESA
+.then(callback_fullfill)
+.catch(callback_reject)
+.finally(callback_siempre) indiferente si entra por then o por catch, el callback siempre se cumple
+
+--------------------------
+async/await 
+await solo se puede meter en una funcion
+
+try - catch
+
+try{
+    escribir codigo que puede tirar una excepción. (código que puede fallar)
+}catch(excepción){//en los parentesis nos llega la excepción "lo que ha pasado"
+
+}
+
+
+-----------------
+fetch --> peticiones asincronas al servidor
+
+cross origin request--> no tienes permisos.
+
+fetch(URL,objeto peticion--request) --> RETORNA UNA PROMESA con un objeto response.
+
+response, tengo la posibilidad de interpretarlo como "texto plano" o como "JSON".
+
+.text()
+.json()
+AMBOS retornan promesas con el contenido (body) procesado.
+
+
+-----------
+Operador typeof 
+
+typeof --> retorna el TIPO de x
+
+------------------
+
+BACKEND
+
+3 funciones
+
+1) Servir ficheros estáticos (nginx/apache)
+2) Conectarse a una base/fuente de datos
+3) Procesar datos/generar html dinámico
+
+cualquier lenguaje de programacion, siempre y cuando cumpla dos requisitos
+1- http --> recibir y responder peticioness
+2- pueda interacturar con el sistema de ficheros (abrir/crear/guardar,etc ficheros)
+
+NODE.js --> runtime de JS (programa que puede interpretar o compilar)
+
+Para interactuar con NODE necesitamos un CLI (interfaz de linea de comandos)
+
+---------------------
+console.log(module); //fichero en ejecucion, desde el punto de vista de node es un módulo.
+
+Module --> representa el fichero en ejecución.
+
+Para importar un modulo a otro utilizamos la función "require" con la ruta al otro módulo.
+
+Interarturar con el sistema de ficheros
+http --> hacer/recibir/responder peticiones
+
+módulo fileSystem --> fs --> módulo nativo de NODE para interactuar con el sistema de ficheros.
+    dentro del fichero fs, tendremos un monton de funciones.
+
+readFile --> Necesita la ruta al fichero y un callback. El callback recibe el contenido del fichero o un error.
+    *buffer --> conjunto de numeros que equivale a lo que ocupa en la memoria ram. Se suelen representar en Hexadecimal, cada uno de las parejas de numeros represnta uno objeto, en este caso un caracter.
+
+writeFile(ruta,contenido,callback) --> error. Me va a decir si ha habido algun error a la hora de escribirlo. El callback me pasa el error.
+
+createReadStream
+creatWriteStream --> es un fichero en el que puedo escribirlo los datos mientras me van llegando. Se diferencia con el write fail es que a me dida qe llegan los datos se van escribiendo. en cambio el otro es inmediato.
+    fs.createWriteStram("nombre del fichero")
+
+Cuando trabajamos con ficheros estamos trabajando con "flujos de datos".
+streams --> flujos de datos.
+
+
+------------------------------------
+streans
+entrada y salida estándar 
+
+in PROGRAMA/SISTEMA out
+Cualquier programa o sistema necesita una entrada y una salida.
+
+process --> representa el proceso que se ha ejecutado del programa.
+
+El proceso tiene acceso a la entrada y salida. process --> in/out
+
+standar out (stdout) --> es un flujo de escritura (write stream)
+
+Para escribir en un flujor de escritura --> write(lo que queramos escribit), pueden ser hasta binario o string alfanumericos.
+Si necesitamos cortar un flujo de escritura --> end()
+
+Cuando en un STRING tengamos un \ (backslash) representa un caracter escapado --> deja de ser el caracter que representa , para cumplir otra función
+    \t tabulador
+    \n nueva línea
+    \r retorun
+
+standar in --> flujo de lectura (read stream)
+Necesito escuchar el evento "data" --> dispara el callback cada vez que hay un paquete de daros(buffer)
+
+process.stdin.on("data", () =>{}) se abre la puerta y puedes escribir, cuando le das al enter es como que terminas de escirbir, puedes ser escribiendo y para cortar la escritura es con ctrl+C.
+
+
+modelo publisher subscriber --> .on (node) (evento,callback)
+     .addEventListener(API DOM)
+
+
+módulo HTTP/HTTPS --> ambos funcionan iguales. lo unico que lo diferencian que si uso el modelo http tengo que usar http y si es al reves con HTTPS
+Su función es hacer/recibir/responder peticiones HTTP.
+
+Servidor --> software recibir y responder peticiones HTTP
+    *) Servir ficheros estáticos
+    *) ejecutar cualquier sccript de BACKEND
+
+URL --> uniform resource locator
+noe.mi --> host --> hacer referencia a una IP.
+    123.343.45.6/x/y/z/publica/noemi/index.html
+
+path --> apartir del HOST --> /css/estilo.css
+    https://noe.mi/proyecto/uno
+    noe.mi --> HOST
+    /proyecto/uno --> path
+
+https tiene la posibilidad de utilixar el metodo request
+https.request() --> hacer una peticion a un URL --> writeStream
+    .request(ObjetoConfiguración, CALLBACK) --> el callback recibe la respuesta del servidor(readStram)
+
+http --> puerto 80
+https --> puerto 443
+
+
+apartir de cualquier flujo de lectura. Para todo lo que no sea texto nevesitas el pipe para poder recbir los datos.
+FLUJO_LECTURA.pipe(FLUJO_ESCRITURA)
+
+------ SERVIDOR----
+
+http.createServer(callback).listen(puerto)
+    callback --> peticioón y la respuesta
+        peticion --> readStream 
+        respuesta --> writeStream 
+
+-----------
+__filename
+__dirname 
+Son constantes de sistema de NODE que representan la ruta absoluta al fichero o al directorio.
+
+-----------
+cabecera de respuesta en el que debe incluir:
+status
+content type --> el tipo de formato.
+
+lo hacemos apartir de la respuesta con un metodo:
+respuesta.writeHead(status,headers-objeto)
+
+-------------
+sistema de ficheros
+fs.stat(ruta/a/un/fichero) --> retorna las "estadisticas" de un fichero/directorio.(No abre el fichero)
+
+---------------
+Tipos de proveedores de hosting
+
+Iaas -->  infrastuctura como servicio (devops)
+PaaS --> plataforma como servicio
+
+
+------------
+CICD --> integración continua y despliegue contínuo.
+
+--------------
+reverse proxy 
+
+nginx --> esta esperando a las peticiones y el se encarga de colocarlo en el puerto correcto y lo envia.
+
+---
+enviaroment --> process.env(variables de entorno)
+
+process.env --> objeto que guarda TODAS las variables de entorno.
+
+------------
+build
+
+*)instalar dependencias
+*)minificar/optimizar ficheros
+
+------------
+packge.json --> guardar infromacion sobre el proyecto (dependecias, scripts, etc)
+
+ npm init -y --> lo que hace es inicializar un proyecto.json, para cuando no tenemos el archivo.
+
+
+-----------------
+frameworks --> código ya escrito para ser reutilizado para cumplir una función, el código suele tener "cajas negras". Suele tener reglas muy estrictas.
+
+librerias --> código ya escrito para ser reutilizado, resuelven tareas o comunes o grupos de tareas, la sintaxis suele ser exactamente igual a la del lenguaje original. (jQuey)
+
+En diseño web no hay ciferencia entre libreria y frameworks.
+
+jqery --> es una libreria del DOM y permite usar ajax  
+$(".algo").click(() => {
+
+});
+
+---------------------- EXPRESS --------------------------
+express --> framework para JS, para crear infrastructura (funcionalidad) de backend
+
+1) Recibir y responder peticiones
+2) Configurar cabeceras
+3) gestionar el body de las peticiones/respuestas.
+
+para instalar express necesitasmos:
+NPM --> node packege manager --> gestor de paquetes de NODE. Se encarga de instalar códigos escritos. Tambien es un repositio de módulos online de NODE. Gestor por defecto.
+
+YARN --> gestor de paquetes de NODE.
+
+GESTOR install MÓDULO
+
+Para trabajar con gestor de paquetes en JS, necesitamos un fichero de "configuración" del proyecto.
+
+packege.json --> informaión del proyecto --> dependencias, scripts
+
+Concepto más importante de EXPRESS --> middleware(lo que esta en el medio)
+
+middleware --> todas las funciones(procesos) que podrian ejecutarse desde que llega la peticion hasta que es respondida. La unica funcion de express es escuchar peticiones y responderlas.
+
+2 tipos de middleware
+-middleware GENERICO --> .use(path(url) opcional, callback(funcion))
+    Se utilizan para procesar la peticion/respuesta, responder --> callback(error, peticion, respuesta, siguiente)
+-middleware por MÉTODO --> .metodoHttp(path(url), callback) --> ej: get(), post(), delete().
+    Se encargan solo de responder --> callback(peticion(flujo de lectura),respuesta(flujo de escrituras)) *Mira en casa para asegurarme*
+
+En express la infirmacion se lee de ARRIBA a BAJO.
+
+Formas de Responder:
+.send(string) --> si express detecta html en dicho string configura el content type com HTML.
+.json(objeto) --> responde enviado un STRING json (content type --> application json).  
+
+1) Servir ficheros estáticos --> express.static("./ruta/directorio/estatico") --> serviir cualquier fichero que encaje con la URL.
+2) Servir HTML dinámico
+
+
+-------------------
+.gitignore --> ficheros de configuración GIT ppara que el repo ignore ficheros o directorios
+para ignorar modulos por que estan en internet y no es necesario que lo tenga en el repositorio.
+Y en la carpeta añadimos lo que quieras ignorarlo.
+
+
+JSon es un string
+
+HTML dinámico --> sistema de plantillas (template engies/view engines)
+las mas conocimas en JS --> ejs | pug
+
+ejs --> embedded javaScript. Se ejecutara en el backen pero se escriben unas etiquetas especiales. ES NECESARIO INSTALARLO (ES UN MODULO)
+Etiquetas para incritar JS dentro de HTML.
+    <% %> <-- estructuras de control
+    <%= %> <--- imprimir de manera LITERAL el valor de una variable. innertext
+    <%- %> <--- imprimir de manera el valor de una variable como código HTML. innerHTML
+
+Te permite tener un fichero estatico (html) te permite inyectar codigo para poder hacerlo dinamico.
+
+express --> configurar un view engines
+    senecesita utilizar el metodo
+    .set("view engine", "ejs") --> configura el sistema de plantillas, ejs. Automatica EXPRESS buscará TODAS las plantillas en una carpeta llamada VIEWS
+
+Una vex tenemos cñonfigurados un sistema de plantillas, la respuesta podra utilizar el método .render (que envia html através de plantillas)
+
+.render(nombre_plantilla, objeto de datos opcional) 
+TODAS las propiedades del objeto de datos, estarán en SCOPE para la plantilla.
+
+-------------
+form --> method | acction
+method(GET/POST)
+acction --> URL procesa el formulario(a donde vamos a navegar esa infirmacion)
+
+los datos viajan en formato URL UNCODED --> string --> campo=valor&campo=valor
+GET --> URL?campo=valor&campo=valor
+POST --> URL (los datos van en el BODY de la petición)
+
+En nuestro formulario va a viajar
+codigo=123,23,2
+
+-------------
+modulo --- body-parser --> procesar el BODY de la peticioón y almacenarlo en la propiedad BODY del objeto petición, como objeto.
+    bodyParser.urlencoded( { extended : true}) --> configurar el PARSER de urlencoded para que acepte todos los posibles formatos.
+
+-----------
+respuesta
+.send --> html/text
+.json --> string json con content type
+.render --> responder con una plantilla (html dinámico)
+.redirect --> redirige a una URL.
+
+
+------------------
+
+Programacion orienta a objetos
+
+objeto --> ABSTRACCIÓN de código que representa una entidad dentro de un sistema 
+propiedades --> caracteristicas
+métodos --> funciones que puede hacer el objeto
+
+los arrays son un objeto --> array
+
+let colores = ["azul", "verde", "amarillo"]
+
+let colores = new Array()
+.length
+.pop()
+
+CLASES --> prototipo de un objeto
+INSTANCIA --> es un objeto creado a partir de clase
+
+
+/*this (navegador) --> pantalla*/
+
+al invocar una funcoin utilizamos la palabra clase "new" --> creamos un objeto apartir de dicha función.
+this --> representa contexto de ejecución (en qué/sobre que objetos están ocurriendo las acciones)
+this --> la futura instancia creada a partir del prototipo
+
+
+class Algo{
+    this --> cualquier instacia futura. el this se refiere a ese objeto.
+}
+
+funcion(){
+    this --> aqui representa un contexto de ejecución. 
+}
+
+-------------------------------------
+
+Sintactis de clase
+
+El método contructor es una funcion que metemos dentro de la clase
+
+Class nombre{
+    constructor{
+        las propiedades del objeto. (SON COMO LAS CONSTANTES, COLOCALNDOLAS ARRIBA PUEDO ACCEDER A ELLAS DESDE CUALQUIER PARTE)
+    }
+    metodo(){}
+    metodo(){}
+    metodo(){}
+}
+Con las clases creo un como el objeto y le meto las caracteristicas (propiedades).
+
+----------------------
+hosting --> js "mueve" todas las variables y funciones al inicio de su SCOPE.
+
+var a = "hola";
+var d = 234;
+
+console.log(c); //undefined
+
+funcion adios(){
+    var b = "otra cosa";
+    d = 234; //por que no colocas la palabra var y interpreta que es una variable global.
+}
+
+var c = "bla bla bla"
+console.log(c); //bla blac
+
+
+Las clases no estan sujetas al HOISTING. Tengo que tener todas las clases declarads al principio o en otro archivo.
+
+------------------------ 
+postgreSQL --> motor de base de datos RELACIONAL --> relacionadas através de "TABLAS".
+
+
+Paradigma RELACIONAL (postgress,mysql) | documentos(mongoDB)
+paradigma 
+SQL --> 
+noSQL -->
+
+TABLAS ---> compuestas por campos (COLUMNAS) | registros (FILAS).
+
+Campo único de cada table --> se llama clase primaria (id). Sirve para cada registro como el DNI.
+
+Clave foránea --> un campo que representa la clave primaria en otra tabla, estableciendo una relación entre las mismas.
+
+Todas la base de daros relacionada esta basada en SQL --> STRUCTURED QUERY LANGUAGE
+
+
+SQL --> lenguaje para comunicarnos con las base de datos (structured query language)
+
+4 operaciones básicas. CRUD --> create | read (más potente) | update | delete
+
+    create --> INSERT --> crear un registro en una tabla.
+        INSERT INTO tabla (campos,a,rellenar) VALUE (valores,de,los,campos)
+        INSERT INTO colores (r,g,b) VALUES (255.10.5)
+    
+    read --> SELECT --> crear una vista con registros de unas tablas
+        SELECT campos,bla,bla FROM tabla
+        SELECT * FROM tabla (trae todos los campos)
+
+    update --> UPDATE --> para actualizar uno o mas registros de una tabla
+        UPDATE tabla SET campo=valor, campo=valor WHERE (condicion que se tiene que cumplir) condicion.
+
+    delete --> DELETE
+        DELETE FROM tabla WHERE condicion
+
+--------------
+
+sql --> RETURNING -->para traer algunos campos de la consulta que acabamos de ejecutar.
+
+Para usar Postgres necesitamos instalar el modulo de node postgress
+1) estableccer una conecxion con el servidro de BBDD
+    invocando postgres(objeto de configuracion)
+2) consultar la BBDD
+3) CERRAR la conexion de la BBDD.
+
+
+-----------
+JSON
+
+1)codificar
+    algo utili para el lenguaje. JS(objetos) --> convertilo en string JSON --> JSOn.stringify(objeto). En ek front no se usa el body parser si no el fech ya tiene el json.string
+
+2)decodificar
+    string JSON -->  algo utili para el lenguaje --> JSON.parse(string json). Se usa en el backend el body parser
+
+------------------------------------
+
+Express te deja crear segmentos dinámicos en la URL.
+segmentos dinámicos en la URL (párametros) --> params --> como se reconocen por que tienen : 
+
+EJ:
+
+Todos los parámetros dinámicos de la URL, estarán en el objeto de PARAMS de la peticion.
+
+"/hola/:a/:b/:c" --> {a, b, c}
+
+"/hola/adios/4/x"
+    {
+        a : "adios",
+        b: 4,
+        c : "x"
+    }
+
+---------------------
+
+API -- cualquier cosa que me permite comincarme através de codigo.
+API rest/restful --> representational state
+
+Enviar y recibir información en JSON.
+Las API rest estan compuesta por endpoinst --> URL + métodos.
+
+----------------
+GET / api-todo
+respuesta que puede dar puede ser un ARRAY de objetos [id,tarea,terminada] 
+    GET /api-todo
+    respuesta: [{id,tarea,terminada}]
+    
+    POST /api-todo/crear
+    peticion : { tarea : "blablabla"} 
+    respuesta { id }
+
+    DELETE /api-todo/borrar/:id (no llevara nada en la peticion ya que la id esta en la url.)
+
+    PUT /api-todo/actualizar/:id/:operacion
+    2 opciones --> toggle-cambiar el texto.
+        operación 1 --> editar texto --> peticion: { tarea : "texto actualizado"} (cuerpo)
+        operacion 2 --> toggle estado
+
+
+
+o respuesta: {error : error servidor} (que eso será por si falla la base de datos.)
+respuesta: {error : error en la peticion} --> si en la tarea no lleva escrito y no lleva .json
+respuesta: {error : not found} 
