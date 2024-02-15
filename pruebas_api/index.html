@@ -7,8 +7,12 @@
 </head>
 <body>
     <script>
-        fetch("/api-todo", {
-            method : "POST" //cambiando el metodo para poder comprobar si funciona
+        fetch("/api-todo/crear", {
+            method : "POST",//cambiando el metodo para poder comprobar si funciona
+            body : '{ "algo" : "valido" }', // esto es lo que saldria de uns json stringify. Esto es lo que tendrian qu colocar el usuario. SI no envias tarea te da error, que erá el throw
+            headers : {
+                "Content-type" : "application/json"
+            }   
         })
         .then(respuesta => respuesta.text())
         .then(respuesta => console.log(respuesta));

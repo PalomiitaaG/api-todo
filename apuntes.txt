@@ -500,3 +500,12 @@ respuesta que puede dar puede ser un ARRAY de objetos [id,tarea,terminada]
 o respuesta: {error : error servidor} (que eso será por si falla la base de datos.)
 respuesta: {error : error en la peticion} --> si en la tarea no lleva escrito y no lleva .json
 respuesta: {error : not found} 
+
+---------
+
+Cuando trabajamos con el metodo .use
+.use((error,peticion,respuesta,siguiente) => {
+
+})
+
+Express crea un middlewere para cuando otro middleware crea un error. Tiene cuatro argumentos y cuando tenga los cuatro argumentos sabe que el primero es el error y envia el error del catch. 
