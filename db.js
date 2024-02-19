@@ -45,4 +45,21 @@ function crearTareas({tarea}){
     }); 
 }
 
-module.exports = {getTareas,crearTareas};
+function borrarTarea(id){
+    return new Promise(async (ok,ko) =>{ //2callback. 1 para cuando se cumpla y otra para cuando no
+        let conexion = conectar();
+
+        try{
+            let {count} = await conexion`DELETE FROM tareas WHERE id = ${id}`; //cuando borro el array estaria vacio por eso le pongo el count para que te muestre el objeto que se ha borrado. 
+
+            conexion.end();
+
+            ok(count);
+        }catch(error){
+            ko({error : "error en la base de datos"}); //esto seria un objeto
+        }
+
+    }); 
+}
+
+module.exports = {getTareas,crearTareas,borrarTarea};

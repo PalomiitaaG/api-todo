@@ -489,7 +489,7 @@ respuesta que puede dar puede ser un ARRAY de objetos [id,tarea,terminada]
     respuesta { id }
 
     DELETE /api-todo/borrar/:id (no llevara nada en la peticion ya que la id esta en la url.)
-
+    
     PUT /api-todo/actualizar/:id/:operacion
     2 opciones --> toggle-cambiar el texto.
         operación 1 --> editar texto --> peticion: { tarea : "texto actualizado"} (cuerpo)
@@ -517,3 +517,7 @@ PUT --> puede verificar si el metodo ya se ha realizado y no lo ejecuta
 PATCH --> si se ejecuta varias peticiones se haran una tras otras aunque sean las mismas.
 
 400 --> bad request --> has hecho un apeticion con datos no validos.
+status 204 --> todo ha salido bien pero la respuesta no tiene contenido.
+
+METODO OPTIONS --> te da un texto con las opciones de la api.
+

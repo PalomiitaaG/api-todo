@@ -9,12 +9,12 @@
     <script>
 
         let tarea = "aprender React";
-        fetch("/api-todo/crear", {
-            method : "POST",//cambiando el metodo para poder comprobar si funciona
+        fetch("/api-todo/borrar/2", {
+            method : "DELETE"/*,//cambiando el metodo para poder comprobar si funciona
             body : JSON.stringify({tarea}), // "algo" : "valido", esto es lo que saldria de uns json stringify. Esto es lo que tendrian qu colocar el usuario. SI no envias tarea te da error, que erá el throw
             headers : {
                 "Content-type" : "application/json"
-            }   
+            }   */
         })
         .then(respuesta => respuesta.text())
         .then(respuesta => console.log(respuesta));
