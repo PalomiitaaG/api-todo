@@ -509,3 +509,11 @@ Cuando trabajamos con el metodo .use
 })
 
 Express crea un middlewere para cuando otro middleware crea un error. Tiene cuatro argumentos y cuando tenga los cuatro argumentos sabe que el primero es el error y envia el error del catch. 
+
+
+-----------------------
+Metodos PUT y PATCH 
+PUT --> puede verificar si el metodo ya se ha realizado y no lo ejecuta
+PATCH --> si se ejecuta varias peticiones se haran una tras otras aunque sean las mismas.
+
+400 --> bad request --> has hecho un apeticion con datos no validos.
