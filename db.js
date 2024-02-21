@@ -62,4 +62,36 @@ function borrarTarea(id){
     }); 
 }
 
-module.exports = {getTareas,crearTareas,borrarTarea};
+function actualizarEstado(id){
+    return new Promise(async (ok,ko) =>{ //2callback. 1 para cuando se cumpla y otra para cuando no
+        let conexion = conectar();
+
+        try{
+            let {count} = await conexion`UPDATE tareas SET terminada = NOT terminada WHERE id=${id}`; //hacer un toggle si tiene  terminada se lo cambia a no terminada y asi del reves. Lo que hace es invertir la informacion de terminada.
+            conexion.end();
+
+            ok(count);
+        }catch(error){
+            ko({error : "error en la base de datos"}); //esto seria un objeto
+        }
+
+    }); 
+}
+
+function actualizarTexto(id,tarea){
+    return new Promise(async (ok,ko) =>{ //2callback. 1 para cuando se cumpla y otra para cuando no
+        let conexion = conectar();
+
+        try{
+            let {count} = await conexion`UPDATE tareas SET tarea = ${tarea} WHERE id=${id}`; // le estas diciendo que coja el campo tareas y le añades la nueva tarea que nos ha puesto el usuario y nos da el id
+            conexion.end();
+
+            ok(count);
+        }catch(error){
+            ko({error : "error en la base de datos"}); //esto seria un objeto
+        }
+
+    }); 
+}
+
+module.exports = {getTareas,crearTareas,borrarTarea,actualizarEstado,actualizarTexto};

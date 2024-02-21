@@ -521,3 +521,60 @@ status 204 --> todo ha salido bien pero la respuesta no tiene contenido.
 
 METODO OPTIONS --> te da un texto con las opciones de la api.
 
+
+--------------------------
+EXPRESIONES REGULARES
+Normalmente lo usaremos para verificación, para validar input o la url.
+
+expresión regular (regex) --> un patrón que define una cadena de caracteres.
+
+2 formas de trabajar
+    match --> para buscar apariciones de un patrón en un string (retornandolas) (método de los STRING)
+    test --> comprobar si un string encaja con un patrón (método de las REGEX)
+
+delimitada --> /regex/
+
+flags funcionales -->
+    i --> case insesitive --> le da igual si la letra esta en mayuscula o en minuscula
+    g --> global
+    ^ --> representa el INICIO del input
+    $ --> representa el FIN del INPUT
+
+conjuntos --> [] --> TODOS los posibles caracteres que podrian aparecer en una posición del patrón. [aswq] (solo pueden ser uno de esos)
+
+conjunto negativo --> [^aswq] --> cualquier caracter MENOS esos.
+
+en los CONJUNTOS podemos utiilizar "rangos" --> [a-z] [0-9] [b-f]
+
+caracteres modificadores --> ? + * --> afectan al caracter anterior
+    ? <-- indica que el caracter anterior es opcional
+    + <-- indica que el caracter anterior puede estar mas de una vez.
+    * <-- puede estar o no estar, en el caso de que este puede estar todas las veces que sea.
+
+repeticiones --> {} --> {cantidad} | {min,max} | {min,}(poco utilizada)
+
+caracterres especiales -->  . --> representa cualquier caracter
+    \ --> activar/desactivar la función/significado original del caracter.
+    \d --> caulquier digito entre 0 - 9
+    \s --> espacio --> no se usa mucho
+    \t --> tabulador
+    \. --> punto literal(caracter punto)
+    \?
+    \+
+    \*
+    \b --> boundary --> en donde aparezca en la expresion regular, representa un "límite" --> espacio entre palabras
+
+grupos --> () --> indexados --> la expresion tiene memoria de lo que un grupo encontró --> cada grupo esta númerado dentro de la expresión a partir de 1. --> \1 \2 \3
+
+condicional --> | (OR)
+
+
+----------------------
+TODO MÉTODO de los strings que utilice argumentos "strings", realmente está utilizando expresiones regulares.
+
+
+STRING.replace(lo que quiero sustituir, el sustituto)
+STRING.replace(regex , el sustituto o un callback que retorna el sustituto)
+el callback recibe el MATCH (lo que encontró la expresión)
+
+new RegExp(string con la expresión, string con las flags)

@@ -1,6 +1,6 @@
 require("dotenv").config();
 const express = require("express");
-const {getTareas,crearTareas,borrarTarea} = require("./db");
+const {getTareas,crearTareas,borrarTarea,actualizarEstado,actualizarTexto} = require("./db");
 const {json} = require("body-parser"); // añade solo la propiedad de json de body-parser
 
 const servidor = express();
@@ -43,11 +43,37 @@ servidor.post("/api-todo/crear", async (peticion,respuesta,siguiente) => {
    
 });
 
-servidor.put("/api-todo", (peticion,respuesta) => {
-    respuesta.send("metodo PUT");
+servidor.put("/api-todo/actualizar/:id([0-9]+)/:operacion(1|2)", async (peticion,respuesta) => {
+    let operacion = Number(peticion.params.operacion);
+    let funciones = [actualizarEstado,actualizarTexto];
+    let {tarea} = peticion.body;
+
+    if(peticion.params.operacion == 1 && tarea && tarea.trim() != ""){
+        
+        try{
+            let id = await actualizarTexto(id,tarea);
+            respuesta.json(id);
+        }catch(error){
+                respuesta.status(500);
+            return respuesta.json(error);
+        }
+    
+    }
+    else{
+        try{
+            let id = await actualizarEstado(peticion.params.operacion);
+            return respuesta.json({id});
+        }catch(error){
+            respuesta.status(500);
+            return respuesta.json(error);  
+        }
+       
+    }
+   
 });
 
-servidor.delete("/api-todo/borrar/:id", async (peticion,respuesta) => {
+//para que pueda colocar cualquier numero del 0-9 y 1 o mas de uno. Estas limitando a que la url sea un numero.
+servidor.delete("/api-todo/borrar/:id([0-9]+)", async (peticion,respuesta) => {
     try{
         let cantidad = await borrarTarea(peticion.params.id);
         return respuesta.json({resultado : cantidad ? "ok" : "ko"});
