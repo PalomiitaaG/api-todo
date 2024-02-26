@@ -2,10 +2,13 @@ require("dotenv").config();
 const express = require("express");
 const {getTareas,crearTareas,borrarTarea,actualizarEstado,actualizarTexto} = require("./db");
 const {json} = require("body-parser"); // añade solo la propiedad de json de body-parser
+const cors = require("cors");
 
 const servidor = express();
 
 /// TODO ESTO SON MIDDLEWARE
+
+servidor.use(cors());
 
 servidor.use(json());//toda peticion va a pasar por ahi, creara un objeto llamado body en el objeto.(siempre estára vacio excepto que el body tenga el content type: json)
 
@@ -43,12 +46,24 @@ servidor.post("/api-todo/crear", async (peticion,respuesta,siguiente) => {
    
 });
 
-servidor.put("/api-todo/actualizar/:id([0-9]+)/:operacion(1|2)", async (peticion,respuesta) => {
+servidor.put("/api-todo/actualizar/:id([0-9]+)/:operacion(1|2)", async (peticion,respuesta,siguiente) => {
     let operacion = Number(peticion.params.operacion);
-    let funciones = [actualizarEstado,actualizarTexto];
+    let operaciones = [actualizarTexto,actualizarEstado];
     let {tarea} = peticion.body;
 
-    if(peticion.params.operacion == 1 && tarea && tarea.trim() != ""){
+    if(operacion == 1 && (!tarea || tarea.trim() == "")){
+        return siguiente({ error : "falta el argumento tarea en el objeto JSON" }); 
+    }
+
+    try{
+        let cantidad = await operaciones[operacion - 1](peticion.params.id, operacion == 1 ? tarea : null);
+        respuesta.json({ resultado : cantidad ? "ok" : "ko" });
+    }catch(error){
+        respuesta.status(500);
+        respuesta.json(error);
+    }
+    
+    /*if(peticion.params.operacion == 1 && tarea && tarea.trim() != ""){
         
         try{
             let id = await actualizarTexto(id,tarea);
@@ -68,7 +83,7 @@ servidor.put("/api-todo/actualizar/:id([0-9]+)/:operacion(1|2)", async (peticion
             return respuesta.json(error);  
         }
        
-    }
+    }*/
    
 });
 
