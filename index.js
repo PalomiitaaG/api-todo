@@ -12,7 +12,8 @@ servidor.use(cors());
 
 servidor.use(json());//toda peticion va a pasar por ahi, creara un objeto llamado body en el objeto.(siempre estára vacio excepto que el body tenga el content type: json)
 
-servidor.use("/pruebas", express.static("./pruebas_api")); //usamos un metodo generico, para configurar una carpeta como carpeta de ficheros estaticos. Si ponemos /prueba te sirve el index.
+servidor.use(express.static("./estaticos"));
+//servidor.use("/pruebas", express.static("./pruebas_api")); //usamos un metodo generico, para configurar una carpeta como carpeta de ficheros estaticos. Si ponemos /prueba te sirve el index.
 
 // MIDDLEWARE ESPECIFICOS
 
